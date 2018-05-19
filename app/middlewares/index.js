@@ -1,3 +1,4 @@
 module.exports = {
-  ...require('./parse-headers')
+  ...require('./parse-headers'),
+  ...require('./auth')
 }

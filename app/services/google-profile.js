@@ -22,13 +22,24 @@ async function getProfile(accessToken) {
 
     return payload
   } catch (e) {
-    if (e.custom) {
+    if (e.name === 'custom') {
       throw e
     }
     errors.throwError(config.errors.googleAccessError.message)
   }
 }
 
+async function validateToken(accessToken) {
+  try {
+    const profile = await getProfile(accessToken)
+
+    return profile
+  } catch (e) {
+    errors.throwError(config.errors.googleAccessError.message)
+  }
+}
+
 module.exports = {
-  getProfile
+  getProfile,
+  validateToken
 }

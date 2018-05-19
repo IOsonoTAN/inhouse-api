@@ -1,4 +1,4 @@
-const { user } = require('../models')
+const { User } = require('../models')
 const errors = require('../helpers/errors')
 const googleProfileService = require('../services/google-profile')
 
@@ -7,13 +7,13 @@ module.exports.signIn = async (req, res) => {
     const googleProfile = await googleProfileService.getProfile(req.headers.accessToken)
     const { sub: googleId } = googleProfile
 
-    const profile = await user.isCurrentUser(googleId)
+    const profile = await User.isCurrentUser(googleId)
     if (profile) {
       return res.status(200).send(profile)
     }
 
-    const newProfile = await user.createUser({
-      googleId,
+    const newProfile = await User.createUser({
+      google_id: googleId,
       name: googleProfile.given_name,
       surname: googleProfile.family_name,
       email: googleProfile.email,
@@ -29,7 +29,7 @@ module.exports.signIn = async (req, res) => {
 module.exports.getUserProfile = async (req, res) => {
   try {
     const { id } = req.params
-    const result = await user.getUserById(id)
+    const result = await User.getUserById(id)
 
     res.send(result)
   } catch (e) {

@@ -1,6 +1,6 @@
-const User = require('../schema/user')
-const errors = require('../../helpers/errors')
-const config = require('../../config')
+const User = require('./schemas/user')
+const errors = require('../helpers/errors')
+const config = require('../config')
 
 async function createUser(data) {
   const profile = new User(data)
@@ -23,7 +23,7 @@ async function getUserById(id) {
 }
 
 async function getUserByGoogleId(googleId) {
-  const profile = await User.findOne({ googleId })
+  const profile = await User.findOne({ google_id: googleId })
 
   if (!profile) {
     errors.throwError(config.errors.googleIdNotFound.message,

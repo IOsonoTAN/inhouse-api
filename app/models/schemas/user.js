@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const plugins = require('../plugins')
+const plugins = require('./helpers/plugins')
 
 const collection = 'user'
 
@@ -11,17 +11,17 @@ const schema = new mongoose.Schema({
     unique: true,
     required: true
   },
-  googleId: {
+  google_id: {
     type: String,
     unique: true,
     required: true
   },
   birthday: Date,
   picture: String,
-  telephoneNumbers: [{
+  telephone_numbers: [{
     number: String
   }],
-  isActive: {
+  is_active: {
     type: Boolean,
     default: true
   },
@@ -31,6 +31,10 @@ const schema = new mongoose.Schema({
   }
 }, {
   versionKey: false,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   collection
 })
 

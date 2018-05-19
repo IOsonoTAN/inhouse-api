@@ -1,4 +1,5 @@
 module.exports = {
-  leave: require('./functions/leave'),
-  user: require('./functions/user'),
+  Leave: require('./Leave'),
+  LeaveType: require('./LeaveType'),
+  User: require('./User')
 }
