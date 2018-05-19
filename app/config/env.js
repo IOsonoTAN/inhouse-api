@@ -1,4 +1,5 @@
 module.exports = {
+  timezone: process.env.TIMEZONE || 'Asia/Bangkok',
   hostDomain: process.env.HOST_DOMAIN || 'inhouse',
   port: process.env.PORT || 9000,
   database: {

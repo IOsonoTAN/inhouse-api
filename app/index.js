@@ -3,11 +3,14 @@ const path = require('path')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const moment = require('moment-timezone')
 
 const routes = require('./routes')
-const { database } = require('./config')
+const { database, timezone } = require('./config')
 
 const app = express()
+
+moment.tz.setDefault(timezone)
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
