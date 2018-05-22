@@ -1,4 +1,5 @@
 const Leave = require('./schemas/leave')
+const redis = require('../redis')
 
 async function updateLeaveById(_id, data = {}) {
   const result = await Leave.findOneAndUpdate({ _id }, { $set: data }, { new: true })
@@ -6,7 +7,7 @@ async function updateLeaveById(_id, data = {}) {
   return result
 }
 
-async function getAllLeavesByUserId(userId, page = 1, conditions = undefined) {
+async function getLeavesByUserId(userId, page = 1, conditions = {}) {
   const results = await Leave.paginate({
     user: userId,
     ...conditions
@@ -36,8 +37,19 @@ async function makeLeave(userId, leaveTypeId, startDate, endDate, notes = '') {
   return leave
 }
 
+async function removeLeave(leaveId) {
+  await Leave.remove({
+    _id: leaveId
+  })
+
+  redis.DEL(`leave:${leaveId}`)
+
+  return true
+}
+
 module.exports = {
   makeLeave,
+  removeLeave,
   updateLeaveById,
-  getAllLeavesByUserId
+  getLeavesByUserId
 }

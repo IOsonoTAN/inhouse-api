@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const plugins = require('./helpers/plugins')
+const redis = require('../../redis')
 
 const collection = 'leave'
 
@@ -35,8 +36,14 @@ const schema = new mongoose.Schema({
   collection
 })
 
+const cacheKey = (id) => `leave:${id}`
+
 schema.post('save', (doc) => {
-  console.log('doc ->', doc)
+  redis.SETEX(cacheKey(doc._id), ((60 * 60) * 24) * 30, JSON.stringify(doc))
+})
+
+schema.post('update', (doc) => {
+  redis.SETEX(cacheKey(doc._id), ((60 * 60) * 24) * 30, JSON.stringify(doc))
 })
 
 module.exports = mongoose.model(collection, plugins(schema))

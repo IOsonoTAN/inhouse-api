@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User } = require('../models/mongo')
 const errors = require('../helpers/errors')
 const googleProfileService = require('../services/google-profile')
 

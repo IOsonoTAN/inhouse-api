@@ -1,6 +1,7 @@
 {
     "extends": "standard",
     "rules": {
-        "space-before-function-paren": "off"
+        "space-before-function-paren": "off",
+        "import/first": "off"
     }
 }

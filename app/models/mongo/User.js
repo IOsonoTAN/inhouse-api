@@ -1,6 +1,6 @@
 const User = require('./schemas/user')
-const errors = require('../helpers/errors')
-const config = require('../config')
+const errors = require('../../helpers/errors')
+const config = require('../../config')
 
 async function createUser(data) {
   const profile = new User(data)

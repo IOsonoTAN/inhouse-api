@@ -1,5 +1,5 @@
-const { Leave } = require('../models')
-const errors = require('../helpers/errors')
+const { Leave } = require('../models/mongo')
+const { responseError } = require('../helpers/errors')
 
 module.exports.createLeave = async (req, res) => {
   try {
@@ -10,19 +10,38 @@ module.exports.createLeave = async (req, res) => {
 
     res.send(result)
   } catch (e) {
-    errors.responseError(res, e, e.status)
+    responseError(res, e, e.status)
   }
 }
 
-module.exports.getAllLeaves = async (req, res) => {
+module.exports.getLeaves = async (req, res) => {
   try {
-    const { page } = req.query
+    const conditions = {}
+    const { page, type, status } = req.query
     const { userId } = req.user
 
-    const results = await Leave.getAllLeavesByUserId(userId, page)
+    if (type) {
+      conditions.leave_type = type
+    }
+    if (status) {
+      conditions.status = status
+    }
+
+    const results = await Leave.getLeavesByUserId(userId, page, conditions)
 
     res.send(results)
   } catch (e) {
-    errors.responseError(res, e, e.status)
+    responseError(res, e, e.status)
+  }
+}
+
+module.exports.removeLeave = async (req, res) => {
+  try {
+    const { leaveId } = req.body
+    const result = await Leave.removeLeave(leaveId)
+
+    res.send(result)
+  } catch (e) {
+    responseError(res, e, e.status)
   }
 }

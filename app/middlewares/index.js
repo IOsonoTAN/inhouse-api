@@ -1,4 +1,7 @@
+const parseHeaders = require('./parse-headers')
+const auth = require('./auth')
+
 module.exports = {
-  ...require('./parse-headers'),
-  ...require('./auth')
+  auth,
+  parseHeaders
 }
